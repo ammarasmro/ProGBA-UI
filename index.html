@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Roboto|Roboto+condensed" rel="stylesheet">
+
+    <link href="main.css" rel="stylesheet">
+
+    <script type="text/javascript" src="assets/neovis.js"></script>
+    <script
+            src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script></head>
+    <link rel="stylesheet" type="text/css" href="assets/0.4.1/styles/vendor.css">
+    <link rel="stylesheet" href="assets/0.4.1/alchemy.css">
+    <script type="text/javascript" src="assets/0.4.1/scripts/vendor.js"></script>
+    <script type="text/javascript" src="assets/0.4.1/alchemy.js"></script>
+<body>
+
+
+<div align="center">
+
+    <h1 id="title" align="center" font-family="Roboto">This is <em>ProGBA!</em></h1>
+    <form id="searchForm">
+        <input autocomplete="off" id="queryInput" onreset="resetAll()" onkeypress="bringForward()" type="search" name="query" style="width: 75%; height: 40px; border: 0.5px solid black; outline: none; margin-bottom: 1vw;" placeholder="Search..." autofocus>
+        <input class="btn btn-danger" onclick="resetAll()" type="reset" style="height: 40px; vertical-align: unset;">
+    </form>
+</div>
+<div id="results-container" class="container container-fluid">
+    <div id="searchResults">
+        <p id="searching-header"></p>
+    </div>
+    <div class="row" id="results-list-box">
+
+    </div>
+    <div id="cards" class="card-columns">
+    </div>
+</div>
+<div id="knowledge-graph" class="container">
+    <div class="row">
+        <div id="graph" class="col">First Column</div>
+        <div id="summary" class="col">
+            <div id="alchemy" class="alchemy"></div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+    function resizeTitle(){
+        var title = document.getElementById('title');
+        title.setAttribute('style', 'color: red; padding: 1vw;');
+    }
+
+    function bringForward(){
+        var title = document.getElementById('title');
+        title.setAttribute('style', 'color: green;');
+        var searchBox = document.getElementById('queryInput');
+        searchBox.style.border = '0';
+        searchBox.style.boxShadow = '0 4px 8px 0 rgba(0, 0, 0, 0.2)';
+    }
+
+    function sendBackward(){
+        var title = document.getElementById('title');
+        title.setAttribute('style', 'color: purple;');
+        var searchBox = document.getElementById('queryInput');
+        searchBox.style.border = '0.5px solid black';
+        searchBox.style.boxShadow = 'none';
+
+        var $searchResults = $('#searching-header');
+        $searchResults.text('');
+
+    }
+
+    function resetAll(){
+        console.log('resetAll')
+        sendBackward();
+        elem = document.getElementById('cards');
+        elem.innerHTML = '';
+    }
+
+
+    function loadSearchResults(){
+        var $searchResults = $('#searching-header');
+        var $query = $('#queryInput');
+        resizeTitle();
+        $searchResults.text('Search results for ' + $query.val() + '...');
+
+
+        // var drqaUrl = "http://localhost:5000/question/" + $query.val();
+
+        var drqaUrl = "test2.json";
+
+        $.getJSON( drqaUrl , function( data ) {
+            var items = [];
+            var singleResults = [];
+            $.each( data, function(i,k){
+                // $.each(k, function( key, val ) {
+                //     items.push( "<li id='" + key + "'>" + key + ": " + val + "</li>" );
+                // })
+                console.log(k['doc_id']);
+                singleResults.push("<div class='card'>");
+                singleResults.push("<div class='card-body'>");
+                singleResults.push("<h5 class='card-title'>" + k['doc_id'] + "<h5/>");
+                var context = k['context']
+                if(context.length > 150 ) {
+                    context = context.substring(0,150) + "...";
+                    context = context + " <span><a  " +
+                        "href='https://wikipedia.org/wiki/"+ k['doc_id'].split(" ").join("%20") +"'>read more.</a></span>";
+                }
+                singleResults.push("<p class='card-text'>" + "context" + ": " + context + "<p/>");
+                // $.each(k, function( key, val ) {
+                //     var shortVal = val;
+                //     if(shortVal.length > 20) shortVal = shortVal.substring(1,50);
+                //     // singleResults.push( "<li id='" + key + "'>" + key + ": " + shortVal + "</li>" );
+                //     singleResults.push("<p class='card-text'>" + key + ": " + shortVal + "<p/>");
+                // })
+                singleResults.push("</div>");
+                singleResults.push("<div class='card-footer d-flex justify-content-center' >");
+                singleResults.push("<button role='button' onclick='putIntoPipeline(this)' name='"+ k['doc_id'].toLowerCase().split(" ").join("-") + "'>Process</button>");
+                singleResults.push("</div>");
+                singleResults.push("</div>");
+                items.push(singleResults.join(""));
+                singleResults = [];
+            });
+            $('#cards').append(items.join(""));
+            // items.join("")
+            //
+            // $( "<ul/>", {
+            //     "class": "drqa-responses",
+            //     "id": "response",
+            //     html: items.join( "" )
+            // }).appendTo( "#results-list-box" );
+        });
+
+        console.log('Done loading data!');
+
+        return false;
+    };
+
+    function putIntoPipeline(doc){
+        alert(doc['name']);
+        elem = document.getElementById('cards');
+        elem.innerHTML = '';
+    }
+
+    $('#searchForm').submit(loadSearchResults);
+    // $('#searchForm').onreset(resetAll);
+    // $('input').blur(sendBackward);
+
+
+
+
+
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+</body>
+</html>
