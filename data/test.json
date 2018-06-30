@@ -1,0 +1,42 @@
+[
+  {
+    "context": "This most commonly refers to automobiles but also refers to motorcycles, trucks, buses, coaches, and vans. The functional design and development of a modern motor vehicle is typically done by a large team from many different disciplines included within automotive engineering. Automotive design in this context is primarily concerned with developing the visual appearance or aesthetics of the vehicle, though it is also involved in the creation of the product concept. Automotive design is practiced by designers who usually have an art background and a degree in industrial design or transportation design.",
+    "doc_id": "Automotive design",
+    "doc_score": 233.30252356644363,
+    "result_number": 0,
+    "span": "industrial design or transportation design",
+    "span_score": 73.4535140991211
+  },
+  {
+    "context": "The task of the design team is usually split into three main aspects: exterior design, interior design, and color and trim design. Graphic design is also an aspect of automotive design; this is generally shared amongst the design team as the lead designer sees fit. Design focuses not only on the isolated outer shape of automobile parts, but concentrates on the combination of form and function, starting from the vehicle package.",
+    "doc_id": "Automotive design",
+    "doc_score": 233.30252356644363,
+    "result_number": 1,
+    "span": "Graphic design",
+    "span_score": 46.6567268371582
+  },
+  {
+    "context": "Germany is often considered the birthplace of industrial design with Bauhaus School of Design. However, the Nazi regime closed down the design school. Ferdinand Porsche and his family played a significant role in German design. Mercedes Benz passenger cars were also in luxury segment and played more importance to aesthetics. After the 1980s, German design evolved into a distinctive Teutonic style often to complement their high engineered cars suited to Autobahns. The early German design clues of present-day owes some part to Italian designers like Giovanni Michelotti, Ercole Spada, Bruno Sacco, and Giorgetto Giugiaro. During the mid- and late-20th century one of the most influential coach builder/designer in Germany was Karmann.",
+    "doc_id": "Automotive design",
+    "doc_score": 233.30252356644363,
+    "result_number": 2,
+    "span": "Bauhaus School of Design",
+    "span_score": 45.07725524902344
+  },
+  {
+    "context": "Apart from this the Engineering team parallelly works in the following areas. Product Engineering (Body In White Sheetmetal Design and Plastic engineering), NVH Development team, Prototype development, Powertrain engineering, Physical Vehicle validation, Tool and Die development and Manufacturing process design.",
+    "doc_id": "Automotive design",
+    "doc_score": 233.30252356644363,
+    "result_number": 3,
+    "span": "Manufacturing process",
+    "span_score": 22.331050872802734
+  },
+  {
+    "context": "Cumberford authored the 2006 book \"Auto Legends: Classics of Style And Design\"; the 2001 book \"Chris Bangle: BMW Global Design\" and the 2008 book \"Cars\", the latter printed in Italian. He contributed to the 2013 book \"Automotive Jewelry, Volume One: Mascots, Badges.\"",
+    "doc_id": "Robert Cumberford",
+    "doc_score": 191.55667151654742,
+    "result_number": 4,
+    "span": "BMW Global Design",
+    "span_score": 21.617040634155273
+  }
+]
