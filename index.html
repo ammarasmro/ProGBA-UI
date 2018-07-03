@@ -41,9 +41,8 @@
 </div>
 <div id="knowledge-graph" class="container">
     <div class="row">
-        <div id="viz" class="col">First Column</div>
+        <div id="viz" class="col-lg">First Column</div>
         <div id="summary" class="col">
-            <div id="alchemy" class="alchemy"></div>
         </div>
     </div>
 
@@ -51,12 +50,18 @@
 
 <input type="button" onclick="clusterKeywords()" value="Cluster all keywords">
 <input type="button" onclick="clusterTriples()" value="Cluster all triples">
+<!--Neo4j driver-->
+<script src="https://unpkg.com/neo4j-driver"></script>
+<!--Neo4j Driver-DB interactions-->
+<script src="src/js/neo4j-ops.js"></script>
+<!--Custom functionalities-->
 <script src="src/js/app.js"></script>
 
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
 
 </body>
 </html>

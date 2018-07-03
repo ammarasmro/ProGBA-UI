@@ -61,3 +61,15 @@ input {
     border: 1px solid lightgray;
     font: 22pt arial;
 }
+
+.triple {
+    font-size: 14px;
+}
+
+.triple:hover {
+    background-color: #c4acac;
+}
+
+#summary {
+    overflow: scroll;
+}

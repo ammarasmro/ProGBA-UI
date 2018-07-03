@@ -94,6 +94,7 @@ function putIntoPipeline(doc){
     draw()
     elem = document.getElementById('cards');
     elem.innerHTML = '';
+    summarizeTriples();
 }
 
 $('#searchForm').submit(loadSearchResults);
@@ -177,3 +178,26 @@ function clusterTriples () {
     console.log('triples clustered');
 }
 
+function summarizeTriples(){
+    var summary = $('#summary');
+    var triples = [];
+    triples.push('<ul id="triples" class="list-group list-group-flush">');
+    getTriples().then(result => {
+        session.close();
+        // console.log('result' + result.records);
+        // const singleRecord = result.records[0];
+        // const greeting = singleRecord.get('k');
+        // console.log(singleRecord.get(1));
+        // console.log(greeting.identity.low);
+        // console.log(greeting);
+        var triple;
+        result.records.forEach(rec => {
+            triple = rec.get('n').properties.subjectText + ' ' + rec.get('rel').properties.relationText + ' ' + rec.get('k').properties.objectText
+            triples.push('<li class="list-group-item triple">' + triple + '</li>');
+        });
+        triples.push('</ul>');
+        summary.append(triples.join(""));
+
+        // console.log('done', triples);
+    });
+}
