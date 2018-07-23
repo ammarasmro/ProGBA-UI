@@ -36579,10 +36579,13 @@ class NeoVis {
                   session.close();
                   let options = {
                     nodes: {
-                        shape: 'dot',
+                        shape: 'box',
                         font: {
                             size: 26,
                             strokeWidth: 7
+                        },
+                        widthConstraint: {
+                            maximum: 200
                         },
                         scaling: {
                             label: {
@@ -36611,6 +36614,7 @@ class NeoVis {
                         //     iterations: 10
                         // }
 
+
                             adaptiveTimestep: true,
                             // barnesHut: {
                             //     gravitationalConstant: -8000,
@@ -36622,6 +36626,17 @@ class NeoVis {
                                 fit: true
                             }
 
+                    },
+                    configure: {
+                        filter:function (option, path) {
+                            if (path.indexOf('physics') !== -1) {
+                                return true;
+                            }
+                            if (path.indexOf('smooth') !== -1 || option === 'smooth') {
+                                return true;
+                            }
+                            return false;
+                        }
                     }
                   };
 
