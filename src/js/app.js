@@ -113,17 +113,17 @@ function draw() {
             //"Character": "name",
             "Subject": {
                 "caption": "subjectText",
-                "tags": ["test1", "test2"]
-                // "community": "community"
+                "tags": ["test1", "test2"],
+                "community": "#FFF"
                 // "sizeCypher": "MATCH (n) WHERE id(n) = {id} MATCH (n)-[r]-() RETURN sum(r.weight) AS c"
             },
             "Object": {
                 "caption": "objectText",
-                "color": "#FFF"
+                "community": "#FFF"
             },
             "Keyword": {
                 "caption": "keywordText",
-                "color": "#0F0"
+                "community": "#FFF"
             }
 
         },
@@ -139,7 +139,7 @@ function draw() {
             }
         },
         initial_cypher: "MATCH (n) -[r]-> (m) RETURN n, r, m"
-        // initial_cypher: "MATCH (n)-[r:INTERACTS]->(m) RETURN n,r,m"
+        // initial_cypher: "MATCH (n) RETURN n"
     };
 
     viz = new NeoVis.default(config);
@@ -184,20 +184,37 @@ function summarizeTriples(){
     triples.push('<ul id="triples" class="list-group list-group-flush">');
     getTriples().then(result => {
         session.close();
-        // console.log('result' + result.records);
-        // const singleRecord = result.records[0];
-        // const greeting = singleRecord.get('k');
-        // console.log(singleRecord.get(1));
-        // console.log(greeting.identity.low);
-        // console.log(greeting);
         var triple;
+        var subject;
+        var relation;
+        var object;
+        var _idSubject;
+        var _idObject;
+        var _idRelation;
         result.records.forEach(rec => {
-            triple = rec.get('n').properties.subjectText + ' ' + rec.get('rel').properties.relationText + ' ' + rec.get('k').properties.objectText
+            _idSubject = rec.get('n').identity.low;
+            _idRelation = rec.get('rel').identity.low;
+            _idObject = rec.get('k').identity.low;
+            subject = '<span class="node-'+ _idSubject +'-source" onclick="tripleSummarySelection('+ _idSubject +",'source'" +')">'+
+                rec.get('n').properties.subjectText + '</span>';
+            relation = '<span class="relation-'+ _idRelation +'" onclick="tripleSummarySelection('+ _idRelation +",'relation'"+')">'+
+                rec.get('rel').properties.relationText + '</span>';
+            object = '<span class="node-'+ _idObject +'-destination" onclick="tripleSummarySelection('+ _idObject +",'destination'"+')">'+
+                rec.get('k').properties.objectText + '</span>';
+            triple = subject + ' ' + relation + ' ' + object;
             triples.push('<li class="list-group-item triple">' + triple + '</li>');
         });
         triples.push('</ul>');
         summary.append(triples.join(""));
+    });
+}
 
-        // console.log('done', triples);
+function tripleSummarySelection(_id, nodeType){
+    viz._data.nodes.update({id: _id, color: {background: 'red', border:'red'}});
+    var elements = document.getElementsByClassName('node-' + _id + '-' + nodeType);
+
+    Array.prototype.forEach.call(elements, function(elem){
+       elem.style.backgroundColor = '#c4696d';
+
     });
 }
