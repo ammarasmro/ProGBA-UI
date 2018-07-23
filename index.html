@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Title</title>
+    <title>ProGBA</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Roboto|Roboto+condensed" rel="stylesheet">
 
@@ -25,6 +25,17 @@
         <input class="btn btn-danger" onclick="resetAll()" type="reset" style="height: 40px; vertical-align: unset;">
     </form>
 </div>
+<div id="query-ops-container" class="container container-fluid">
+    <div class="input-group">
+        <select class="custom-select" id="queries-list" aria-label="Example select with button addon">
+            <option selected>Choose a query...</option>
+        </select>
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" id="uptoQuery" type="button">Upto</button>
+            <button class="btn btn-outline-secondary" id="showThisQuery" type="button">.this</button>
+            <button class="btn btn-outline-secondary" id="commitQueryState"  type="button">Commit</button>
+        </div>
+    </div>
 <div id="results-container" class="container container-fluid">
     <div id="searchResults">
         <p id="searching-header"></p>

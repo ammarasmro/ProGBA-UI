@@ -35,6 +35,7 @@ function loadSearchResults(){
     var $searchResults = $('#searching-header');
     var $query = $('#queryInput');
     resizeTitle();
+
     $searchResults.text('Search results for ' + $query.val() + '...');
 
 
@@ -45,7 +46,8 @@ function loadSearchResults(){
     $.getJSON( drqaUrl , function( data ) {
         var items = [];
         var singleResults = [];
-        $.each( data, function(i,k){
+        addQueryToList($query, data['conversation-id']);
+        $.each( data['results'], function(i,k){
             // $.each(k, function( key, val ) {
             //     items.push( "<li id='" + key + "'>" + key + ": " + val + "</li>" );
             // })
@@ -88,6 +90,30 @@ function loadSearchResults(){
 
     return false;
 };
+var cnt = 1;
+function addQueryToList(query, _id){
+
+    $('#queries-list').append('<option value="' + cnt + '">' + query.val() + '</option>');
+    cnt += 1
+}
+
+function getGraphUptoConversationID(){
+    console.log('Showing graph up to conversation-id: ' + $('#queries-list').val())
+}
+
+function getGraphAtConversationID(){
+    console.log('Showing graph @ conversation-id: ' + $('#queries-list').val())
+}
+
+function removeAfterConversationID(){
+    console.log('Removing nodes after conversation-id: ' + $('#queries-list').val())
+}
+
+$('#searchForm').submit(loadSearchResults);
+$('#uptoQuery').click(getGraphUptoConversationID);
+$('#showThisQuery').click(getGraphAtConversationID);
+$('#commitQueryState').click(removeAfterConversationID);
+
 
 function putIntoPipeline(doc){
     alert(doc['name']);
@@ -97,7 +123,7 @@ function putIntoPipeline(doc){
     summarizeTriples();
 }
 
-$('#searchForm').submit(loadSearchResults);
+
 // $('#searchForm').onreset(resetAll);
 // $('input').blur(sendBackward);
 
