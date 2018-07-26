@@ -12,5 +12,15 @@ function getTriples(){
 
 }
 
+function getTripleSummaryWithCypherQuery(){
+    const resultPromise = session.writeTransaction(tx => tx.run(
+        'MATCH (n:Subject)-[rel:VERB]->(k:Object) RETURN n,rel,k' ,
+        {message: 'hello, world'}));
+    return resultPromise;
 
+}
+
+function writeQuery(cypherQuery){
+    session.run(cypherQuery);
+}
 

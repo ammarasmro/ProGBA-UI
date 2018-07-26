@@ -84,24 +84,33 @@ function addQueryToList(query, _id){
 
 function getGraphUptoConversationID(){
     console.log('Showing graph up to conversation-id: ' + $('#queries-list').val());
-    viz.renderWithCypher('MATCH (n)-[r]->(k) ' +
+    var cypherQuery = 'MATCH (n)-[r]->(k) ' +
         'WHERE ANY (x in n.conversations WHERE x <= '+ $('#queries-list').val() +')' +
-        'RETURN n,r,k');
+        'RETURN n,r,k';
+    rerenderWithSummaryForQuery(cypherQuery);
 }
 
 function getGraphAtConversationID(){
     console.log('Showing graph @ conversation-id: ' + $('#queries-list').val());
-    viz.renderWithCypher('MATCH (n)-[r]->(k) ' +
+    var cypherQuery = 'MATCH (n)-[r]->(k) ' +
         'WHERE ANY (x in n.conversations WHERE x = '+ $('#queries-list').val() +')' +
-        'RETURN n,r,k');
+        'RETURN n,r,k';
+    rerenderWithSummaryForQuery(cypherQuery);
+
 }
 
 function removeAfterConversationID(){
     console.log('Removing nodes after conversation-id: ' + $('#queries-list').val());
-    viz.renderWithCypher('MATCH (n)' +
-    'WHERE ALL (x in n.conversations WHERE x > '+ $('#queries-list').val() +')' +
-    'DETACH DELETE n');
+    var cypherQuery = 'MATCH (n)' +
+        'WHERE ALL (x in n.conversations WHERE x > '+ $('#queries-list').val() +')' +
+        'DETACH DELETE n';
+    writeQuery(cypherQuery);
+    getGraphAtConversationID();
+}
 
+function rerenderWithSummaryForQuery(cypherQuery){
+    viz.renderWithCypher(cypherQuery);
+    summarizeTriples();
 }
 
 $('#searchForm').submit(loadSearchResults);
@@ -206,6 +215,7 @@ function clusterTriples () {
 
 function summarizeTriples(){
     var summary = $('#summary');
+    summary.innerHTML = '';
     var triples = [];
     triples.push('<ul id="triples" class="list-group list-group-flush">');
     getTriples().then(result => {
