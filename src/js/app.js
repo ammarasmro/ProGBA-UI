@@ -77,25 +77,31 @@ function loadSearchResults(){
 };
 
 
-
-// TODO: remove this temporary counter
-var cnt = 1;
 function addQueryToList(query, _id){
 
-    $('#queries-list').append('<option value="' + cnt + '">' + query.val() + '</option>');
-    cnt += 1
+    $('#queries-list').append('<option value="' + _id + '">' + query.val() + '</option>');
 }
 
 function getGraphUptoConversationID(){
-    console.log('Showing graph up to conversation-id: ' + $('#queries-list').val())
+    console.log('Showing graph up to conversation-id: ' + $('#queries-list').val());
+    viz.renderWithCypher('MATCH (n)-[r]->(k) ' +
+        'WHERE ANY (x in n.conversations WHERE x <= '+ $('#queries-list').val() +')' +
+        'RETURN n,r,k');
 }
 
 function getGraphAtConversationID(){
-    console.log('Showing graph @ conversation-id: ' + $('#queries-list').val())
+    console.log('Showing graph @ conversation-id: ' + $('#queries-list').val());
+    viz.renderWithCypher('MATCH (n)-[r]->(k) ' +
+        'WHERE ANY (x in n.conversations WHERE x = '+ $('#queries-list').val() +')' +
+        'RETURN n,r,k');
 }
 
 function removeAfterConversationID(){
-    console.log('Removing nodes after conversation-id: ' + $('#queries-list').val())
+    console.log('Removing nodes after conversation-id: ' + $('#queries-list').val());
+    viz.renderWithCypher('MATCH (n)' +
+    'WHERE ALL (x in n.conversations WHERE x > '+ $('#queries-list').val() +')' +
+    'DETACH DELETE n');
+
 }
 
 $('#searchForm').submit(loadSearchResults);
