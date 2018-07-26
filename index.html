@@ -36,6 +36,7 @@
             <button class="btn btn-outline-secondary" id="commitQueryState"  type="button">Commit</button>
         </div>
     </div>
+</div>
 <div id="results-container" class="container container-fluid">
     <div id="searchResults">
         <p id="searching-header"></p>
@@ -46,17 +47,17 @@
     <div id="cards" class="card-columns">
     </div>
 </div>
-<div id="knowledge-graph" class="container">
+<div id="knowledge-graph" class="container" hidden>
     <div class="row">
-        <div id="viz" class="col-lg">First Column</div>
+        <div id="viz" class="col-lg"></div>
         <div id="summary" class="col">
         </div>
     </div>
 
 </div>
 
-<input type="button" onclick="clusterKeywords()" value="Cluster all keywords">
-<input type="button" onclick="clusterTriples()" value="Cluster all triples">
+<!--<input type="button" onclick="clusterKeywords()" value="Cluster all keywords">-->
+<!--<input type="button" onclick="clusterTriples()" value="Cluster all triples">-->
 <!--Neo4j driver-->
 <script src="https://unpkg.com/neo4j-driver"></script>
 <!--Neo4j Driver-DB interactions-->

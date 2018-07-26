@@ -6,7 +6,7 @@ const session = driver.session();
 
 function getTriples(){
     const resultPromise = session.writeTransaction(tx => tx.run(
-        'MATCH (n:Subject)-[rel:VERB]->(k:Object) RETURN n,rel,k LIMIT 30' ,
+        'MATCH (n:Subject)-[rel:VERB]->(k:Object) RETURN n,rel,k' ,
         {message: 'hello, world'}));
     return resultPromise;
 

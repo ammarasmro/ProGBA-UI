@@ -39,57 +39,46 @@ function loadSearchResults(){
     $searchResults.text('Search results for ' + $query.val() + '...');
 
 
-    // var drqaUrl = "http://localhost:5000/question/" + $query.val();
+    var drqaUrl = "http://localhost:4567/query/" + $query.val();
 
-    var drqaUrl = "data/test.json";
+    // var drqaUrl = "data/test.json";
 
     $.getJSON( drqaUrl , function( data ) {
         var items = [];
         var singleResults = [];
+        console.log(data);
         addQueryToList($query, data['conversation-id']);
         $.each( data['results'], function(i,k){
-            // $.each(k, function( key, val ) {
-            //     items.push( "<li id='" + key + "'>" + key + ": " + val + "</li>" );
-            // })
-            console.log(k['doc_id']);
+            console.log(k['docId']);
             singleResults.push("<div class='card'>");
             singleResults.push("<div class='card-body'>");
-            singleResults.push("<h5 class='card-title'>" + k['doc_id'] + "<h5/>");
+            singleResults.push("<h5 class='card-title'>" + k['docId'] + "<h5/>");
             var context = k['context']
             if(context.length > 150 ) {
                 context = context.substring(0,150) + "...";
                 context = context + " <span><a  " +
-                    "href='https://wikipedia.org/wiki/"+ k['doc_id'].split(" ").join("%20") +"'>read more.</a></span>";
+                    "href='https://wikipedia.org/wiki/"+ k['docId'].split(" ").join("%20") +"'>read more.</a></span>";
             }
             singleResults.push("<p class='card-text'>" + "context" + ": " + context + "<p/>");
-            // $.each(k, function( key, val ) {
-            //     var shortVal = val;
-            //     if(shortVal.length > 20) shortVal = shortVal.substring(1,50);
-            //     // singleResults.push( "<li id='" + key + "'>" + key + ": " + shortVal + "</li>" );
-            //     singleResults.push("<p class='card-text'>" + key + ": " + shortVal + "<p/>");
-            // })
             singleResults.push("</div>");
             singleResults.push("<div class='card-footer d-flex justify-content-center' >");
-            singleResults.push("<button role='button' onclick='putIntoPipeline(this)' name='"+ k['doc_id'].toLowerCase().split(" ").join("-") + "'>Process</button>");
+            singleResults.push("<button role='button' onclick='putIntoPipeline(" + k["resultNumber"] + ")' name='"+ k['docId'].toLowerCase().split(" ").join("-") + "'>Process</button>");
             singleResults.push("</div>");
             singleResults.push("</div>");
             items.push(singleResults.join(""));
             singleResults = [];
         });
         $('#cards').append(items.join(""));
-        // items.join("")
-        //
-        // $( "<ul/>", {
-        //     "class": "drqa-responses",
-        //     "id": "response",
-        //     html: items.join( "" )
-        // }).appendTo( "#results-list-box" );
     });
 
     console.log('Done loading data!');
 
     return false;
 };
+
+
+
+// TODO: remove this temporary counter
 var cnt = 1;
 function addQueryToList(query, _id){
 
@@ -115,18 +104,23 @@ $('#showThisQuery').click(getGraphAtConversationID);
 $('#commitQueryState').click(removeAfterConversationID);
 
 
-function putIntoPipeline(doc){
-    alert(doc['name']);
-    draw()
-    elem = document.getElementById('cards');
-    elem.innerHTML = '';
-    summarizeTriples();
+function putIntoPipeline(resultNumber){
+    const url = 'http://localhost:4567/choose-doc/' + resultNumber;
+    $.get(url, function(data) {
+        console.log(data);
+        viz.reload();
+        document.getElementById('knowledge-graph').hidden = false;
+        elem = document.getElementById('cards');
+        elem.innerHTML = '';
+        summarizeTriples();
+    });
+
 }
 
 
 // $('#searchForm').onreset(resetAll);
 // $('input').blur(sendBackward);
-
+draw();
 var viz;
 
 function draw() {
